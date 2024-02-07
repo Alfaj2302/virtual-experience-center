@@ -36,12 +36,23 @@ export const Experience = () => {
                 maxDistance={3500}
                 args={[camera, gl.domElement]}
             />
+            <ambientLight intensity={1.5} />
             <directionalLight position={[0, 30, 30]} intensity={1} />
             <Map far={1}/>
             <mesh position={[0, -1, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
                 <planeGeometry args={[7000, 5000]} />
                 <meshStandardMaterial color="#52576b" />
             </mesh>
+            {/* Add circles for location pins */}
+            <mesh position={[100, 0.1, 100]} receiveShadow>
+                <circleGeometry args={[5, 32]} />
+                <meshStandardMaterial color="red" />
+            </mesh>
+            <mesh position={[-200, 0.1, -300]} receiveShadow>
+                <circleGeometry args={[5, 32]} />
+                <meshStandardMaterial color="blue" />
+            </mesh>
+            {/* Add more circles with different positions and colors as needed */}
         </>
     );
 };
