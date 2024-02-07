@@ -36,10 +36,10 @@ export const Experience = () => {
                 maxDistance={3500}
                 args={[camera, gl.domElement]}
             />
-            <directionalLight position={[0, 5, 30]} intensity={1} />
+            <directionalLight position={[0, 30, 30]} intensity={1} />
             <Map far={1}/>
             <mesh position={[0, -1, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-                <planeGeometry args={[5000, 5000]} />
+                <planeGeometry args={[7000, 5000]} />
                 <meshStandardMaterial color="#52576b" />
             </mesh>
         </>
