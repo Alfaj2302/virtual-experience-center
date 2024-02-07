@@ -6,7 +6,7 @@ import { Experience } from './component/Experience';
 function App() {
   return (
     <Canvas>
-        <Experience/>
+      <Experience />
     </Canvas>
   );
 }
