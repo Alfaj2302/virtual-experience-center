@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Map } from './Map';
 import { OrbitControls } from '@react-three/drei';
+import { MapControls } from '@react-three/drei';
 import { useThree } from '@react-three/fiber';
 
 export const Experience = () => {
@@ -31,12 +32,13 @@ export const Experience = () => {
 
     return (
         <>
-            <OrbitControls
+            <MapControls
                 ref={controls}
+                maxDistance={3500}
                 args={[camera, gl.domElement]}
             />
             <directionalLight position={[0, 5, 30]} intensity={1} />
-            <Map />
+            <Map far={1}/>
         </>
     );
 };
