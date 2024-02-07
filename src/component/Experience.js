@@ -7,13 +7,10 @@ export const Experience = () => {
     const { camera, gl } = useThree();
     const controls = useRef();
 
-    // Set the initial camera position and rotation
-    camera.position.set(-1760.4805421048945, 337.31586052580525, -1807.9851536299686); // Adjust the values based on your scene dimensions
-    camera.rotation.set(-Math.PI / 2, 0, 0); // Rotating the camera to look down
-
     useEffect(() => {
         const handleControlsUpdate = () => {
-            console.log(camera.position);
+            // Ensure that the Y position of the camera doesn't go below 50
+            camera.position.setY(Math.max(camera.position.y, 50));
         };
 
         controls.current.addEventListener('change', handleControlsUpdate);
