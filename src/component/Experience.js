@@ -1,7 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import { Map } from './Map';
 import { MapControls } from '@react-three/drei';
-import { useThree } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
+import { Map } from './Map';
+
+export const angleToRadians = (degrees) => {
+    return (degrees * Math.PI) / 180;
+};
 
 export const Experience = () => {
     const { camera, gl } = useThree();
@@ -29,21 +33,38 @@ export const Experience = () => {
         }
     }, [camera]);
 
+    const combinedRef = useRef({ controls, mapControls: null });
+
+    const mapControlsRef = useRef();
+
+    useFrame(({ pointer }) => {
+        if (!!mapControlsRef.current) {
+            const { x, y } = pointer;
+            mapControlsRef.current.setAzimuthalAngle(-angleToRadians(x * 4));
+            mapControlsRef.current.update();
+        }
+    });
+
     const locationPins = [
-        { position: [-1000, 150, 0] }, 
-        { position: [-2500, 150, 450] }, 
+        { position: [-1000, 150, 0] },
+        { position: [-2500, 150, 450] },
     ];
 
     return (
         <>
             <MapControls
-                ref={controls}
+                ref={(controlsRef) => {
+                    // Store both camera and mapControlsRef in combinedRef
+                    combinedRef.current.mapControls = controlsRef;
+                    mapControlsRef.current = controlsRef;
+                    controls.current = controlsRef;
+                }}
                 maxDistance={3500}
                 args={[camera, gl.domElement]}
             />
             <ambientLight intensity={1.5} />
-            <directionalLight position={[0, 50, 30]} intensity={1} castShadow/>
-            <Map far={1} receiveShadow/>
+            <directionalLight position={[0, 50, 30]} intensity={1} castShadow />
+            <Map far={1} receiveShadow />
             <mesh position={[0, -1, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
                 <planeGeometry args={[7000, 5000]} />
                 <meshStandardMaterial color="#52576b" />
