@@ -29,6 +29,11 @@ export const Experience = () => {
         }
     }, [camera]);
 
+    const locationPins = [
+        { position: [-1000, 150, 0] }, 
+        { position: [-2500, 150, 450] }, 
+    ];
+
     return (
         <>
             <MapControls
@@ -37,22 +42,18 @@ export const Experience = () => {
                 args={[camera, gl.domElement]}
             />
             <ambientLight intensity={1.5} />
-            <directionalLight position={[0, 30, 30]} intensity={1} />
-            <Map far={1}/>
+            <directionalLight position={[0, 50, 30]} intensity={1} castShadow/>
+            <Map far={1} receiveShadow/>
             <mesh position={[0, -1, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
                 <planeGeometry args={[7000, 5000]} />
                 <meshStandardMaterial color="#52576b" />
             </mesh>
-            {/* Add circles for location pins */}
-            <mesh position={[100, 0.1, 100]} receiveShadow>
-                <circleGeometry args={[5, 32]} />
-                <meshStandardMaterial color="red" />
-            </mesh>
-            <mesh position={[-200, 0.1, -300]} receiveShadow>
-                <circleGeometry args={[5, 32]} />
-                <meshStandardMaterial color="blue" />
-            </mesh>
-            {/* Add more circles with different positions and colors as needed */}
+            {locationPins.map((pin, index) => (
+                <mesh key={index} position={pin.position} castShadow>
+                    <sphereGeometry args={[50, 50]} />
+                    <meshStandardMaterial attach="material" color="#ff0000" />
+                </mesh>
+            ))}
         </>
     );
 };
