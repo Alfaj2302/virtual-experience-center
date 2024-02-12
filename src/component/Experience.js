@@ -1,7 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import { Map } from './Map';
 import { MapControls } from '@react-three/drei';
-import { useThree } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
+
+export const angleToRadians = (degrees) => {
+    return (degrees * Math.PI) / 180;
+};
 
 export const Experience = () => {
     const { camera, gl } = useThree();
@@ -15,8 +19,10 @@ export const Experience = () => {
     // Adjust controls during updates
     useEffect(() => {
         const handleControlsUpdate = () => {
-            // Ensure that the Y position of the camera doesn't go below 50
-            camera.position.setY(Math.max(camera.position.y, 50));
+            // Ensure that the Y position of the camera doesn't go below 50 or above 337.31586052580525
+            camera.position.setY(Math.max(100, Math.min(camera.position.y, 337.31586052580525)));
+            // camera.position.setZ(Math.max(1000, Math.min(camera.position.z, -1807.9851536299686)));
+            //camera.position.setX(Math.max(200, Math.min(-2000, 2000.31586052580525)));
         };
 
         // Add a null check before attempting to remove the event listener
@@ -29,9 +35,17 @@ export const Experience = () => {
         }
     }, [camera]);
 
+    // const MapControlsRef = useRef(null);
+
+    // useFrame((state) => {
+    //     if (!!MapControlsRef.current) {
+    //         const { x, y } = state.mouse
+    //     }
+    // })
+
     const locationPins = [
-        { position: [-1000, 150, 0] }, 
-        { position: [-2500, 150, 450] }, 
+        { position: [-1000, 150, 0] },
+        { position: [-2500, 150, 450] },
     ];
 
     return (
@@ -42,8 +56,8 @@ export const Experience = () => {
                 args={[camera, gl.domElement]}
             />
             <ambientLight intensity={1.5} />
-            <directionalLight position={[0, 50, 30]} intensity={1} castShadow/>
-            <Map far={1} receiveShadow/>
+            <directionalLight position={[0, 50, 30]} intensity={1} castShadow />
+            <Map far={1} receiveShadow />
             <mesh position={[0, -1, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
                 <planeGeometry args={[7000, 5000]} />
                 <meshStandardMaterial color="#52576b" />
