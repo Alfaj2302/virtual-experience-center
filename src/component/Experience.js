@@ -44,15 +44,15 @@ export const Experience = () => {
     // })
 
     const locationPins = [
-        { position: [-1000, 150, 0] },
-        { position: [-2500, 150, 450] },
+        { position: [-1000, 100, 0] },
+        { position: [-2500, 100, 450] },
     ];
 
     return (
         <>
             <MapControls
                 ref={controls}
-                maxDistance={3500}
+                // maxDistance={3500}
                 args={[camera, gl.domElement]}
             />
             <ambientLight intensity={1.5} />
