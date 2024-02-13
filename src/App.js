@@ -4,7 +4,7 @@ import { Experience } from './component/Experience';
 
 function App() {
   return (
-    <Canvas>
+    <Canvas camera={{ fov: 400, near: 1.1, far: 7000, position: [20, 0, 100] }}>
       <Experience />
     </Canvas>
   );

@@ -1,31 +1,24 @@
-import React, { useEffect, useRef } from 'react';
-import { Map } from './Map';
-import { MapControls } from '@react-three/drei';
+import React, { useEffect, useRef, useState } from 'react';
+import { MapControls, PerspectiveCamera } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
-
-export const angleToRadians = (degrees) => {
-    return (degrees * Math.PI) / 180;
-};
+import { Map } from './Map';
 
 export const Experience = () => {
     const { camera, gl } = useThree();
     const controls = useRef();
+    const [showAnchor, setShowAnchor] = useState(false);
+    const [anchorPosition, setAnchorPosition] = useState({ x: 0, y: 0 });
+    const [hoveredSphere, setHoveredSphere] = useState(null);
 
-    // Set the initial camera position
     useEffect(() => {
-        camera.position.set(-1760.4805421048945, Math.max(337.31586052580525, 50), -1807.9851536299686);
+        camera.position.set(-1960.4805421048945, Math.max(837.31586052580525, 50), -2307.9851536299686);
     }, [camera]);
 
-    // Adjust controls during updates
     useEffect(() => {
         const handleControlsUpdate = () => {
-            // Ensure that the Y position of the camera doesn't go below 50 or above 337.31586052580525
-            camera.position.setY(Math.max(100, Math.min(camera.position.y, 337.31586052580525)));
-            // camera.position.setZ(Math.max(1000, Math.min(camera.position.z, -1807.9851536299686)));
-            //camera.position.setX(Math.max(200, Math.min(-2000, 2000.31586052580525)));
+            camera.position.setY(Math.max(100, Math.min(camera.position.y, 990.31586052580525)));
         };
 
-        // Add a null check before attempting to remove the event listener
         if (controls.current) {
             controls.current.addEventListener('change', handleControlsUpdate);
 
@@ -35,39 +28,76 @@ export const Experience = () => {
         }
     }, [camera]);
 
-    // const MapControlsRef = useRef(null);
+    const handleSphereHover = (index, event) => {
+        const { clientX, clientY } = event;
+        setHoveredSphere(index);
+        setShowAnchor(true);
+        setAnchorPosition({ x: clientX, y: clientY });
+    };
 
-    // useFrame((state) => {
-    //     if (!!MapControlsRef.current) {
-    //         const { x, y } = state.mouse
-    //     }
-    // })
+    const handleSphereLeave = () => {
+        setHoveredSphere(null);
+        setShowAnchor(false);
+    };
 
     const locationPins = [
-        { position: [-1000, 100, 0] },
-        { position: [-2500, 100, 450] },
+        { position: [-1000, 200, 0], link: 'https://example.com/1' },
+        { position: [-2500, 150, 450], link: 'https://example.com/2' },
+        { position: [-2500, 300, 450], link: 'https://example.com/3' },
+        { position: [-500, 250, 750], link: 'https://example.com/4' },
+        { position: [-3000, 100, -550], link: 'https://example.com/5' },
+        { position: [-2300, 300, -600], link: 'https://example.com/6' },
+        { position: [-1800, 500, -650], link: 'https://example.com/7' },
+        { position: [-1000, 300, -1550], link: 'https://example.com/8' },
+        { position: [-2800, 300, -1550], link: 'https://example.com/9' },
     ];
 
     return (
         <>
-            <MapControls
-                ref={controls}
-                // maxDistance={3500}
-                args={[camera, gl.domElement]}
-            />
+        <PerspectiveCamera/>
+            <MapControls ref={controls} maxDistance={3500} args={[camera, gl.domElement]} />
             <ambientLight intensity={1.5} />
             <directionalLight position={[0, 50, 30]} intensity={1} castShadow />
-            <Map far={1} receiveShadow />
-            <mesh position={[0, -1, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+
+            <Map />
+
+            {/* Ground plane */}
+            <mesh position={[0, -5, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
                 <planeGeometry args={[7000, 5000]} />
                 <meshStandardMaterial color="#52576b" />
             </mesh>
+
+            {/* Sphere location pins */}
             {locationPins.map((pin, index) => (
-                <mesh key={index} position={pin.position} castShadow>
+                <mesh
+                    key={index}
+                    position={pin.position}
+                    castShadow
+                    onPointerOver={(event) => handleSphereHover(index, event)}
+                    onPointerOut={() => handleSphereLeave()}
+                >
                     <sphereGeometry args={[50, 50]} />
                     <meshStandardMaterial attach="material" color="#ff0000" />
                 </mesh>
             ))}
+
+            {/* Anchor tag in the center of the screen */}
+            {showAnchor && hoveredSphere !== null && (
+                <div
+                    style={{
+                        position: 'absolute',
+                        top: anchorPosition.y,
+                        left: anchorPosition.x,
+                        transform: 'translate(-50%, -50%)',
+                        zIndex: 1000,
+                    }}
+                >
+                    <a href={locationPins[hoveredSphere].link} style={{ color: 'white', textDecoration: 'none' }}>
+                        Click me!
+                    </a>
+                </div>
+            )}
+
         </>
     );
 };
