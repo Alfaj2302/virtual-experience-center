@@ -73,8 +73,11 @@ export const Experience = () => {
                     key={index}
                     position={pin.position}
                     castShadow
-                    onClick={(event) => handleSphereHover(index, event)}
-                    // onPointerOut={() => handleSphereLeave()}
+                    onPointerOver={(event) => handleSphereHover(index, event)}
+                    onClick={ ()=>{
+                        window.open(pin.link, "_blank")
+                    }}
+                    onPointerOut={() => handleSphereLeave()}
                 >
                     <sphereGeometry args={[50, 50]} />
                     <meshStandardMaterial attach="material" color="#ff0000" />
@@ -83,12 +86,12 @@ export const Experience = () => {
 
             {/* Anchor tag in the center of the screen */}
             {showAnchor && hoveredSphere !== null && (
-               <Html>
-                 <div>
+               <Html className='popUpHtml'>
+                 <div className='popParent'>
                     <h1>{locationPins[hoveredSphere].titles}</h1>
-                    <a href={locationPins[hoveredSphere].link} style={{ color: 'black', textDecoration: 'none', fontSize : '40px' }}>
+                    {/* <a href={locationPins[hoveredSphere].link} target='_blank' style={{ color: 'black', textDecoration: 'none', fontSize : '40px' }}>
                         Click me!
-                    </a>
+                    </a> */}
                 </div>
                </Html>
             )}
