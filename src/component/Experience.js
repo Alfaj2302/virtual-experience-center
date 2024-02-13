@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { MapControls, PerspectiveCamera } from '@react-three/drei';
+import { MapControls, PerspectiveCamera, Html } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
 import { Map } from './Map';
 
@@ -41,15 +41,15 @@ export const Experience = () => {
     };
 
     const locationPins = [
-        { position: [-1000, 200, 0], link: 'https://example.com/1' },
-        { position: [-2500, 150, 450], link: 'https://example.com/2' },
-        { position: [-2500, 300, 450], link: 'https://example.com/3' },
-        { position: [-500, 250, 750], link: 'https://example.com/4' },
-        { position: [-3000, 100, -550], link: 'https://example.com/5' },
-        { position: [-2300, 300, -600], link: 'https://example.com/6' },
-        { position: [-1800, 500, -650], link: 'https://example.com/7' },
-        { position: [-1000, 300, -1550], link: 'https://example.com/8' },
-        { position: [-2800, 300, -1550], link: 'https://example.com/9' },
+        { position: [-1000, 200, 0], link: 'https://github.com/Sunbird-ALL/community', titles :'Assisted Language Learning'},
+        { position: [-2500, 150, 450], link: 'https://anuvaad.sunbird.org/', titles :'Anuvaad' },
+        { position: [-2500, 300, 450], link: 'https://cqube.sunbird.org/know-about-cqube/architecture', titles :'cQube' },
+        { position: [-500, 250, 750], link: 'https://dsep.sunbird.org/', titles :'DSEP' },
+        { position: [-3000, 100, -550], link: 'https://ed.sunbird.org/learn/readme', titles :'ED' },
+        { position: [-2300, 300, -600], link: 'https://inquiry.sunbird.org/learn/readme', titles :'inQuiry' },
+        { position: [-1800, 500, -650], link: 'https://knowlg.sunbird.org/learn/readme', titles :'Knowlg' },
+        { position: [-1000, 300, -1550], link: 'https://lern.sunbird.org/learn/readme', titles :'Lern' },
+        { position: [-2800, 300, -1550], link: 'https://obsrv.sunbird.org/', titles :'Obsrv' },
     ];
 
     return (
@@ -73,8 +73,8 @@ export const Experience = () => {
                     key={index}
                     position={pin.position}
                     castShadow
-                    onPointerOver={(event) => handleSphereHover(index, event)}
-                    onPointerOut={() => handleSphereLeave()}
+                    onClick={(event) => handleSphereHover(index, event)}
+                    // onPointerOut={() => handleSphereLeave()}
                 >
                     <sphereGeometry args={[50, 50]} />
                     <meshStandardMaterial attach="material" color="#ff0000" />
@@ -83,19 +83,14 @@ export const Experience = () => {
 
             {/* Anchor tag in the center of the screen */}
             {showAnchor && hoveredSphere !== null && (
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: anchorPosition.y,
-                        left: anchorPosition.x,
-                        transform: 'translate(-50%, -50%)',
-                        zIndex: 1000,
-                    }}
-                >
-                    <a href={locationPins[hoveredSphere].link} style={{ color: 'white', textDecoration: 'none' }}>
+               <Html>
+                 <div>
+                    <h1>{locationPins[hoveredSphere].titles}</h1>
+                    <a href={locationPins[hoveredSphere].link} style={{ color: 'black', textDecoration: 'none', fontSize : '40px' }}>
                         Click me!
                     </a>
                 </div>
+               </Html>
             )}
 
         </>
