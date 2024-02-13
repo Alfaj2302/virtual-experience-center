@@ -13,6 +13,7 @@
 }
 
 .popParent h1 {
+  letter-spacing: 5px;
   position: absolute;
   font-family: "Bayon", sans-serif;
   top: 50%;
