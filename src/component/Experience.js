@@ -41,20 +41,20 @@ export const Experience = () => {
     };
 
     const locationPins = [
-        { position: [-1000, 200, 0], link: 'https://github.com/Sunbird-ALL/community', titles :'Assisted Language Learning'},
-        { position: [-2500, 150, 450], link: 'https://anuvaad.sunbird.org/', titles :'Anuvaad' },
-        { position: [-2500, 300, 450], link: 'https://cqube.sunbird.org/know-about-cqube/architecture', titles :'cQube' },
-        { position: [-500, 250, 750], link: 'https://dsep.sunbird.org/', titles :'DSEP' },
-        { position: [-3000, 100, -550], link: 'https://ed.sunbird.org/learn/readme', titles :'ED' },
-        { position: [-2300, 300, -600], link: 'https://inquiry.sunbird.org/learn/readme', titles :'inQuiry' },
-        { position: [-1800, 500, -650], link: 'https://knowlg.sunbird.org/learn/readme', titles :'Knowlg' },
-        { position: [-1000, 300, -1550], link: 'https://lern.sunbird.org/learn/readme', titles :'Lern' },
-        { position: [-2800, 300, -1550], link: 'https://obsrv.sunbird.org/', titles :'Obsrv' },
+        { position: [-1000, 200, 0], link: 'https://github.com/Sunbird-ALL/community', titles: 'Assisted Language Learning' },
+        { position: [-2500, 150, 450], link: 'https://anuvaad.sunbird.org/', titles: 'Anuvaad' },
+        { position: [-2500, 300, 450], link: 'https://cqube.sunbird.org/know-about-cqube/architecture', titles: 'cQube' },
+        { position: [-500, 250, 750], link: 'https://dsep.sunbird.org/', titles: 'DSEP' },
+        { position: [-3000, 100, -550], link: 'https://ed.sunbird.org/learn/readme', titles: 'ED' },
+        { position: [-2300, 300, -600], link: 'https://inquiry.sunbird.org/learn/readme', titles: 'inQuiry' },
+        { position: [-1800, 500, -650], link: 'https://knowlg.sunbird.org/learn/readme', titles: 'Knowlg' },
+        { position: [-1000, 300, -1550], link: 'https://lern.sunbird.org/learn/readme', titles: 'Lern' },
+        { position: [-2800, 300, -1550], link: 'https://obsrv.sunbird.org/', titles: 'Obsrv' },
     ];
 
     return (
         <>
-        <PerspectiveCamera/>
+            <PerspectiveCamera />
             <MapControls ref={controls} maxDistance={3500} args={[camera, gl.domElement]} />
             <ambientLight intensity={1.5} />
             <directionalLight position={[0, 50, 30]} intensity={1} castShadow />
@@ -74,7 +74,7 @@ export const Experience = () => {
                     position={pin.position}
                     castShadow
                     onPointerOver={(event) => handleSphereHover(index, event)}
-                    onClick={ ()=>{
+                    onClick={() => {
                         window.open(pin.link, "_blank")
                     }}
                     onPointerOut={() => handleSphereLeave()}
@@ -86,14 +86,11 @@ export const Experience = () => {
 
             {/* Anchor tag in the center of the screen */}
             {showAnchor && hoveredSphere !== null && (
-               <Html className='popUpHtml'>
-                 <div className='popParent'>
-                    <h1>{locationPins[hoveredSphere].titles}</h1>
-                    {/* <a href={locationPins[hoveredSphere].link} target='_blank' style={{ color: 'black', textDecoration: 'none', fontSize : '40px' }}>
-                        Click me!
-                    </a> */}
-                </div>
-               </Html>
+                <Html className='popUpHtml'>
+                    <div className='popParent'>
+                        <h1>{locationPins[hoveredSphere].titles}</h1>
+                    </div>
+                </Html>
             )}
 
         </>
